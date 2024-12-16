@@ -1,38 +1,36 @@
 package com.example;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
-        // Testando a classe Aluno
-        System.out.println("### Teste da Classe Aluno ###");
-        Aluno aluno = new Aluno(8.0, 7.5, 9.0, 10.0);
-        System.out.println("Média do aluno: " + aluno.calcularMedia());
-        System.out.println();
+        Scanner scanner = new Scanner(System.in);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        // Testando a classe Conta
-        System.out.println("### Teste da Classe Conta ###");
-        LocalDate dataVencimento = LocalDate.of(2024, 6, 10);
-        LocalDate dataPagamentoAtrasado = LocalDate.of(2024, 6, 15);
-        LocalDate dataPagamentoNoPrazo = LocalDate.of(2024, 6, 9);
+        System.out.println("=== Sistema de Cálculo de Aluguel ===");
 
-        Conta conta1 = new Conta(dataPagamentoNoPrazo, dataVencimento, 100.0);
-        Conta conta2 = new Conta(dataPagamentoAtrasado, dataVencimento, 100.0);
+        // Solicita a data de vencimento
+        System.out.print("Digite a data de vencimento (yyyy-MM-dd): ");
+        LocalDate dataVencimento = LocalDate.parse(scanner.nextLine(), formatter);
 
-        System.out.println("Conta paga no prazo: " + conta1.calcularTotal());
-        System.out.println("Conta paga com atraso: " + conta2.calcularTotal());
-        System.out.println();
+        // Solicita a data de pagamento
+        System.out.print("Digite a data de pagamento (yyyy-MM-dd): ");
+        LocalDate dataPagamento = LocalDate.parse(scanner.nextLine(), formatter);
 
-        // Testando a classe Eleitor
-        System.out.println("### Teste da Classe Eleitor ###");
-        Eleitor eleitor1 = new Eleitor("João", LocalDate.of(2010, 6, 5)); // Menor de 16 anos
-        Eleitor eleitor2 = new Eleitor("Maria", LocalDate.of(1990, 6, 5)); // Obrigatório
-        Eleitor eleitor3 = new Eleitor("Pedro", LocalDate.of(2008, 6, 5)); // Facultativo (16-18 anos)
-        Eleitor eleitor4 = new Eleitor("Ana", LocalDate.of(1950, 6, 5)); // Facultativo (+70 anos)
+        // Solicita o valor do aluguel
+        System.out.print("Digite o valor do aluguel: ");
+        double valorAluguel = scanner.nextDouble();
 
-        System.out.println(eleitor1.verificarVoto());
-        System.out.println(eleitor2.verificarVoto());
-        System.out.println(eleitor3.verificarVoto());
-        System.out.println(eleitor4.verificarVoto());
+        // Cria o objeto Aluguel
+        Aluguel aluguel = new Aluguel(dataVencimento, valorAluguel);
+
+        // Calcula o valor final
+        double valorFinal = aluguel.calcularValor(dataPagamento);
+
+        // Exibe o resultado
+        System.out.printf("O valor total a ser pago é: R$ %.2f%n", valorFinal);
     }
 }
